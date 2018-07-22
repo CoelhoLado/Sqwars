@@ -9,12 +9,8 @@
 typedef enum {EMPTY, WALL, FIRE, WATER} PIECE;
 
 typedef struct player{
-    float posX;
-    float posY;
-    float velX;
-    float velY;
-    int max_HP;
-    int HP;
+    float posX, posY, velX, velY, ang;
+    int HP, max_HP;
     int actions[10];
     //SKILLS skillBuild;
 } PLAYER;
@@ -137,6 +133,7 @@ STATE readFileState(char *fState){
         e.player.posY = 1;
         e.player.velX = 0;
         e.player.velY = 0;
+        e.player.ang = 0;
         e.player.max_HP = 150;
         e.player.HP = 130;
         e = fillMap(e);
@@ -156,7 +153,7 @@ void drawMap(SDL_Renderer *renderer, STATE *state){
                     break;
                 }
                 case WALL:{
-                    SDL_SetRenderDrawColor(renderer, 20, 20, 20, 20);
+                    SDL_SetRenderDrawColor(renderer, 20, 20, 20, 150);
                     SDL_Rect rect = { 25*c + 30, 25*l + 30, 25, 25};
                     SDL_RenderFillRect(renderer, &rect);
                     break;
