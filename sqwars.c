@@ -64,7 +64,7 @@ STATE str2estado(char *argumentos) {
 
 void saveFileState(STATE state) {
 	char fState[MAX_BUFFER];
-	sprintf(fState, "%s/estado.txt","/home/nuno/Documents/C/c_grafico/project_1");
+	sprintf(fState, "%s/estado.txt","./estado");
 	FILE *fp = fopen(fState,"w");
 	fprintf(fp,"%s", estado2str(state));
 	fclose(fp);
@@ -153,7 +153,7 @@ void drawMap(SDL_Renderer *renderer, STATE *state){
                     break;
                 }
                 case WALL:{
-                    SDL_SetRenderDrawColor(renderer, 20, 20, 20, 150);
+                    SDL_SetRenderDrawColor(renderer, 90, 90, 90, 200);
                     SDL_Rect rect = { 25*c + 30, 25*l + 30, 25, 25};
                     SDL_RenderFillRect(renderer, &rect);
                     break;
