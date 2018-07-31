@@ -87,7 +87,7 @@ int exists(const char *fname)
 }
 
 //Preenche 3ª linha do mapa com parede
-STATE fillMap(STATE state){
+/*STATE fillMap(STATE state){
     int l, c;
     for(l = 0; l < 26; l++)
         for(c = 0; c < 26; c++){
@@ -109,6 +109,36 @@ STATE fillMap(STATE state){
         state.map[0][c] = WALL;
         state.map[25][c] = WALL;
     }
+    return state;
+}*/
+
+STATE readMap(STATE state, char *mapName) {
+	char mapLine[MAX_BUFFER];
+	int l, c, lmax, cmax;
+	char v;
+	FILE *fp = fopen(mapName,"r");
+	fscanf(fp,"%d %d",&lmax,&cmax);
+	for(l = 0; l < lmax; l++){
+		fscanf(fp,"%s",mapLine);
+		for(c = 0; c < cmax; c++){
+			v = mapLine[c];
+			switch(v){
+				case '.':
+					state.map [l] [c] = EMPTY;
+					break;
+				case 'F':
+					state.map [l] [c] = FIRE;
+					break;
+				case 'W':
+					state.map [l] [c] = WATER;
+					break;
+				default:
+					state.map [l] [c] = WALL;
+					break;
+			}
+		}
+	}
+	fclose(fp);
     return state;
 }
 
@@ -136,7 +166,7 @@ STATE readFileState(char *fState){
         e.player.ang = 0;
         e.player.max_HP = 150;
         e.player.HP = 130;
-        e = fillMap(e);
+        e = readMap(e, "./map1.txt");
 		return e;
 	}
 }
