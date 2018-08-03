@@ -11,27 +11,36 @@ typedef enum {EMPTY, WALL, FIRE, WATER} PIECE;
 typedef struct player{
     float posX, posY, velX, velY, ang;
     int HP, max_HP;
+    int speed, strength, range;
     int actions[10];
     //SKILLS skillBuild;
 } PLAYER;
 
-/*typedef struct  entity{
+/*typedef struct entity{
     float posX;
     float posY;
     float velX;
     float velY;
-    int HP;
+    int HP, max_HP;
+    int speed;
+    int strenght;
     int agressive;
     int range;
-    int level;
 } ENTITY;*/
 
+/*typedef struct type{
+    ENTITY zombie;
+    ENTITY giant;
+    ENTITY spider;
+    int level;
+} TYPE;*/
+
 typedef struct gameState {
-    PIECE map[26][26];
+    PIECE map[30][30];
     //ENV environment;
     //int intensity;
     PLAYER player;
-    //ENTITY enemies[100];
+    //TYPE enemies[30];
 } STATE;
 
 //typedef enum {MENUS, REGULAR, NETHER, DESERT, SEA} ENV;
@@ -160,20 +169,20 @@ STATE readFileState(char *fState){
 	}
 	else{
         e.player.posX = 3;
-        e.player.posY = 1;
+        e.player.posY = 6;
         e.player.velX = 0;
         e.player.velY = 0;
         e.player.ang = 0;
         e.player.max_HP = 150;
         e.player.HP = 130;
-        e = readMap(e, "./map1.txt");
+        e = readMap(e, "./mapas/map1.txt");
 		return e;
 	}
 }
 
 void drawMap(SDL_Renderer *renderer, STATE *state){
     int l ,c;
-    for(l = 0; l < 26; l++)
+    for(l = 0; l < 22; l++)
         for(c = 0; c < 26; c++){
             switch(state -> map[l][c]){
                 case EMPTY:{
@@ -235,8 +244,8 @@ STATE updatePlayer(STATE state){
     if(nextPieceX == WALL) state.player.velX = 0;
     if(piece == FIRE && state.player.HP > 0) state.player.HP -= 4;
     if(state.player.HP <= 0) {
-        state.player.posX = 2;
-        state.player.posY = 2;
+        state.player.posX = 3;
+        state.player.posY = 6;
         state.player.HP = state.player.max_HP;
     }
     if(piece == WATER){
@@ -375,7 +384,7 @@ void doRender(SDL_Renderer *renderer, STATE *state){
 int main(/*int argc, char *argv[]*/){
     srand(time(NULL));
     STATE gstate;
-    gstate = readFileState("/home/nuno/Documents/C/c_grafico/project_1/estado.txt");
+    gstate = readFileState("./estado/estado.txt");
     SDL_Window *window;                    // Declare a window
     SDL_Renderer *renderer;                // Declare a renderer
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL2
