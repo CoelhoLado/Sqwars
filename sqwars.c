@@ -13,8 +13,13 @@ typedef struct player{
     int HP, max_HP;
     int speed, strength, range;
     int actions[10];
+    int class; // (0 = warrior) (1 = mage) (2 = rogue prai)
     //SKILLS skillBuild;
 } PLAYER;
+
+typedef struct skills{
+    //huehuehue 
+} SKILLS;
 
 /*typedef struct entity{
     float posX;
