@@ -247,6 +247,7 @@ FLOAT getAng(PLAYER player){
     posy = player.posY;
     SDL_GetMouseState(&x, &y);
     ang = atan((y - posy)/(x - posx))
+    if ((x - posx) < 0) ang = ang + pi;
     return ang;
 }
 
