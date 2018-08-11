@@ -18,7 +18,7 @@ typedef struct player{
 } PLAYER;
 
 typedef struct skills{
-    //huehuehue 
+    //huehuehue
 } SKILLS;
 
 /*typedef struct entity{
@@ -219,9 +219,12 @@ void drawMap(SDL_Renderer *renderer, STATE *state){
 }
 
 void drawPlayer(SDL_Renderer *renderer, STATE *state){
+    SDL_Texture* pTexture;
+    int SDL_SetTextureColorMod(pTexture, 255, 40, 255);
+
     SDL_SetRenderDrawColor(renderer, 255, 40, 255, 150);
     SDL_Rect rect = { state -> player.posX * 25 + 25, state -> player.posY * 25 + 25, 10, 10};
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderCopyEx(renderer, pTexture, &rect);
 }
 
 void drawHP(SDL_Renderer *renderer, STATE *state){
@@ -238,13 +241,20 @@ void drawHP(SDL_Renderer *renderer, STATE *state){
 
 }*/
 
+FLOAT getAng(PLAYER player){
+    float posx, posy, x , y, ang;
+    posx = player.posX;
+    posy = player.posY;
+    SDL_GetMouseState(&x, &y);
+    ang = atan((y - posy)/(x - posx))
+    return ang;
+}
 
 STATE updatePlayer(STATE state){
-    PLAYER player = (state.player);
     PIECE nextPieceY, nextPieceX, piece;
-    piece = state.map[(int) (player.posY)][(int) (player.posX)];
-    nextPieceY = state.map[(int) (player.posY + player.velY)][(int) (player.posX)];
-    nextPieceX = state.map[(int) (player.posY)][(int) (player.posX + player.velX)];
+    piece = state.map[(int) (state.player.posY)][(int) (state.player.posX)];
+    nextPieceY = state.map[(int) (state.player.posY + state.player.velY)][(int) (state.player.posX)];
+    nextPieceX = state.map[(int) (state.player.posY)][(int) (state.player.posX + state.player.velX)];
     if(nextPieceY == WALL) state.player.velY = 0;
     if(nextPieceX == WALL) state.player.velX = 0;
     if(piece == FIRE && state.player.HP > 0) state.player.HP -= 4;
@@ -259,6 +269,7 @@ STATE updatePlayer(STATE state){
     }
     state.player.posX += state.player.velX;
     state.player.posY += state.player.velY;
+    state.player.ang = getAng(state.player);
     return state;
 }
 
